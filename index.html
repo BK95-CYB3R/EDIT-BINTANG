@@ -29,14 +29,12 @@
             overflow-x: hidden;
         }
 
-        /* Background Animasi Matrix Pink */
         #matrix-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; opacity: 0.4;
         }
 
-        /* Teks Berjalan */
         .marquee-top {
             width: 100%; background: var(--cp-pink); color: #000;
             padding: 10px 0; font-family: 'Fira Code', monospace;
@@ -56,7 +54,6 @@
             100% { transform: translate(-100%, 0); }
         }
 
-        /* AREA PREVIEW FB */
         #capture-area { 
             background: var(--fb-bg); 
             width: 100%; 
@@ -96,7 +93,6 @@
         .replies-section { display: flex; align-items: center; gap: 6px; color: var(--fb-gray); font-size: 14px; font-weight: 600; }
         .chevron { border: solid var(--fb-gray); border-width: 0 2px 2px 0; display: inline-block; padding: 2.5px; transform: rotate(45deg); margin-bottom: 2px; }
 
-        /* PANEL EDITOR CYBER PINK */
         .editor-panel { 
             margin: 40px 0 120px 0; 
             background: rgba(20, 0, 10, 0.95); 
@@ -135,17 +131,6 @@
             padding: 12px; border: 1px solid rgba(255, 0, 127, 0.3); 
             border-radius: 6px; background: #1a000d; color: #fff; font-size: 14px; outline: none; 
         }
-        .f-group input:focus { border-color: var(--cp-pink); box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-        .toggle-v { 
-            display: flex; align-items: center; gap: 10px; margin-bottom: 20px; 
-            background: rgba(255, 0, 127, 0.15); padding: 12px; border-radius: 8px; 
-            cursor: pointer; border: 1px solid var(--cp-pink);
-            font-family: 'Fira Code', monospace; font-size: 12px; font-weight: bold; color: var(--cp-pink);
-        }
-
         .btn-main { 
             background: var(--cp-pink); color: #000; padding: 16px; border-radius: 8px; 
             font-weight: 900; border: none; width: 100%; cursor: pointer; font-size: 16px; 
@@ -153,7 +138,6 @@
             clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
             transition: 0.3s;
         }
-        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--cp-pink); }
 
         .footer-warning {
             width: 100%; background: var(--cp-pink); color: #000;
@@ -188,12 +172,12 @@
             <div class="comment-text" id="out-comment">Supply aman! Silahkan di cek.</div>
             
             <div class="gift-wrapper">
-                <img src="naga.png" id="out-gift-img" class="gift-img">
+                <img src="Naga.png" id="out-gift-img" class="gift-img">
                 <div class="gift-bar">
-                    <span>⭐</span>
+                    <img src="Bintang_ikon.png" class="icon-star-mini">
                     <span id="out-gift-text">Mengirim 100 Bintang</span>
                     <span>·</span>
-                    <span>🔥</span>
+                    <img src="Api_ikon.png" class="icon-fire-mini">
                     <span id="out-streak">1 minggu</span>
                 </div>
             </div>
@@ -236,35 +220,28 @@
             <input type="file" accept="image/*" onchange="loadImg(this)">
         </div>
 
-        <div class="input-row">
-            <div class="f-group"><label>Nama Pengguna</label><input type="text" id="in-name" value="By. BayuDubai" oninput="update()"></div>
-            <div class="f-group"><label>Waktu</label><input type="text" id="in-time" value="1 j" oninput="update()"></div>
-        </div>
-
+        <div class="f-group"><label>Nama Pengguna</label><input type="text" id="in-name" value="By. BayuDubai" oninput="update()"></div>
+        <div class="f-group"><label>Waktu</label><input type="text" id="in-time" value="1 j" oninput="update()"></div>
         <div class="f-group"><label>Pesan</label><textarea id="in-comment" rows="2" oninput="update()">Supply aman! Silahkan di cek.</textarea></div>
 
-        <div class="input-row">
-            <div class="f-group"><label>Like</label><input type="number" id="in-likes" value="12" oninput="update()"></div>
-            <div class="f-group"><label>Balasan</label><input type="number" id="in-replies" value="3" oninput="update()"></div>
-        </div>
+        <div class="f-group"><label>Like</label><input type="number" id="in-likes" value="12" oninput="update()"></div>
+        <div class="f-group"><label>Balasan</label><input type="number" id="in-replies" value="3" oninput="update()"></div>
 
-        <div class="input-row">
-            <div class="f-group">
-                <label>Pilih Hadiah</label>
-                <select id="in-gift" onchange="update()">
-                    <option value="sepatu.png|50">Sepatu (50)</option>
-                    <option value="naga.png|100" selected>Naga (100)</option>
-                    <option value="metal.png|200">Metal (200)</option>
-                    <option value="ufo.png|300">Ufo (300)</option>
-                    <option value="dua_jari_live.png|500">Dua Jari Live (500)</option>
-                    <option value="Naga_live.png|1000">Naga Live (1000)</option>
-                    <option value="otot_live.png|1000">Otot Live (1000)</option>
-                    <option value="topeng_live.png|1000">Topeng Live (1000)</option>
-                    <option value="blink2.png|1000">Blink2 (1000)</option>
-                </select>
-            </div>
-            <div class="f-group"><label>Streak</label><input type="text" id="in-streak" value="1 minggu" oninput="update()"></div>
+        <div class="f-group">
+            <label>Pilih Hadiah</label>
+            <select id="in-gift" onchange="update()">
+                <option value="Sepatu.png|50">Sepatu (50)</option>
+                <option value="Naga.png|100" selected>Naga (100)</option>
+                <option value="Metal.png|200">Metal (200)</option>
+                <option value="Ufo.png|300">Ufo (300)</option>
+                <option value="Dua_jari_live.png|500">Dua Jari Live (500)</option>
+                <option value="Naga_live.png|1000">Naga Live (1000)</option>
+                <option value="Otot_live.png|1000">Otot Live (1000)</option>
+                <option value="Topeng_live.png|1000">Topeng Live (1000)</option>
+                <option value="Blink2.png|1000">Blink2 (1000)</option>
+            </select>
         </div>
+        <div class="f-group"><label>Streak</label><input type="text" id="in-streak" value="1 minggu" oninput="update()"></div>
 
         <button class="btn-main" onclick="save()">💾 EKSEKUSI & SIMPAN PNG</button>
     </div>
@@ -274,7 +251,6 @@
     </div>
 
     <script>
-        // Matrix Rain Effect
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -316,11 +292,7 @@
             document.getElementById('out-streak').innerText = document.getElementById('in-streak').value;
 
             const vBadge = document.getElementById('out-v');
-            if (document.getElementById('in-verify').checked) {
-                vBadge.classList.add('active');
-            } else {
-                vBadge.classList.remove('active');
-            }
+            vBadge.style.display = document.getElementById('in-verify').checked ? "inline-block" : "none";
 
             const gift = document.getElementById('in-gift').value.split('|');
             document.getElementById('out-gift-img').src = gift[0];
@@ -331,7 +303,6 @@
             html2canvas(document.getElementById('capture-area'), { 
                 scale: 3, 
                 useCORS: true,
-                allowTaint: true,
                 backgroundColor: "#ffffff"
             }).then(canvas => {
                 const link = document.createElement('a');
