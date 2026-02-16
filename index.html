@@ -182,7 +182,7 @@
         
         <div class="f-group">
             <label>Pilih Hadiah</label>
-            <select id="in-gift" onchange="update()">
+            <select id="in-gift" onchange="syncGiftValue()">
                 <option value="sepatu.png|50">Sepatu (50)</option>
                 <option value="naga.png|100" selected>Naga (100)</option>
                 <option value="metal.png|200">Metal (200)</option>
@@ -193,6 +193,11 @@
                 <option value="topeng_live.png|1000">Topeng Live (1000)</option>
                 <option value="blink2.png|1000">Blink2 (1000)</option>
             </select>
+        </div>
+
+        <div class="f-group">
+            <label>Jumlah Bintang (Manual)</label>
+            <input type="text" id="in-gift-custom" value="100" oninput="update()">
         </div>
 
         <div class="f-group"><label>Likes</label><input type="number" id="in-likes" value="12" oninput="update()"></div>
@@ -232,6 +237,13 @@
             }
         }
 
+        // Fungsi khusus agar saat ganti hadiah, input manual otomatis terisi angka hadiah tersebut
+        function syncGiftValue() {
+            const giftData = document.getElementById('in-gift').value.split('|');
+            document.getElementById('in-gift-custom').value = giftData[1];
+            update();
+        }
+
         function update() {
             document.getElementById('out-name').innerText = document.getElementById('in-name').value;
             document.getElementById('out-time').innerText = document.getElementById('in-time').value;
@@ -243,8 +255,10 @@
             document.getElementById('out-v').style.display = document.getElementById('in-verify').checked ? "inline-block" : "none";
 
             const gift = document.getElementById('in-gift').value.split('|');
+            const customStars = document.getElementById('in-gift-custom').value;
+            
             document.getElementById('out-gift-img').src = gift[0];
-            document.getElementById('out-gift-text').innerText = "Mengirim " + gift[1] + " Bintang";
+            document.getElementById('out-gift-text').innerText = "Mengirim " + customStars + " Bintang";
         }
 
         function save() {
