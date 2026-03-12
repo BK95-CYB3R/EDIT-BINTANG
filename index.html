@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FB Simulator Pro - BayuDubai Edition</title>
+    <title>FB Simulator Pro - MISTER X Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -116,7 +116,7 @@
     <canvas id="matrix-bg"></canvas>
 
     <div class="marquee-top">
-        <span>[SISTEM DIRETAS] Welcome FB SIMULATOR By.BayuDubai — AKSES DITERIMA — [SISTEM DIRETAS]</span>
+        <span>[SISTEM DIRETAS] Welcome FB SIMULATOR By. MISTER X — AKSES DITERIMA — [SISTEM DIRETAS]</span>
     </div>
 
     <div id="capture-area">
@@ -125,7 +125,7 @@
         </div>
         <div class="content">
             <div class="header-line">
-                <span class="user-name" id="out-name">By. BayuDubai</span>
+                <span class="user-name" id="out-name">By. MISTER X</span>
                 <img src="centang_biru.png" id="out-v">
                 <div class="meta-group">
                     <span id="out-time">1 j</span> <span>·</span>
@@ -176,7 +176,7 @@
             <input type="file" accept="image/*" onchange="loadImg(this)">
         </div>
 
-        <div class="f-group"><label>Nama Pengguna</label><input type="text" id="in-name" value="By. BayuDubai" oninput="update()"></div>
+        <div class="f-group"><label>Nama Pengguna</label><input type="text" id="in-name" value="By. MISTER X" oninput="update()"></div>
         <div class="f-group"><label>Waktu</label><input type="text" id="in-time" value="1 j" oninput="update()"></div>
         <div class="f-group"><label>Pesan</label><textarea id="in-comment" rows="2" oninput="update()">Supply aman! Silahkan di cek.</textarea></div>
         
@@ -237,7 +237,6 @@
             }
         }
 
-        // Fungsi khusus agar saat ganti hadiah, input manual otomatis terisi angka hadiah tersebut
         function syncGiftValue() {
             const giftData = document.getElementById('in-gift').value.split('|');
             document.getElementById('in-gift-custom').value = giftData[1];
@@ -264,7 +263,7 @@
         function save() {
             html2canvas(document.getElementById('capture-area'), { scale: 3, useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'BayuDubai_Simulator.png';
+                link.download = 'MISTERX_Simulator.png';
                 link.href = canvas.toDataURL();
                 link.click();
             });
