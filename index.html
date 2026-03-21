@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FB Simulator Pro - MISTER X Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>FB Simulator Pro - Dual Language Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { 
@@ -20,12 +20,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
-            font-family: 'Inter', sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--cp-bg); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; 
         }
 
         #matrix-bg {
@@ -37,7 +38,7 @@
         .marquee-top {
             width: 100%; background: var(--cp-pink); color: #000;
             padding: 10px 0; font-family: 'Fira Code', monospace;
-            font-weight: 900; font-size: 14px;
+            font-weight: 900; font-size: 13px; 
             white-space: nowrap; overflow: hidden;
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 0 20px var(--cp-pink);
@@ -56,38 +57,63 @@
         #capture-area { 
             background: var(--fb-bg); 
             width: 100%; 
-            max-width: 500px; 
-            padding: 15px 16px; 
+            max-width: 400px; 
+            padding: 12px 14px; 
             display: flex; 
-            gap: 12px; 
+            gap: 10px; 
             margin-top: 30px;
             box-shadow: 0 0 35px rgba(255, 0, 127, 0.6);
             border-radius: 4px;
         }
 
         .avatar-container { flex-shrink: 0; }
-        .avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #eee; }
-        .content { flex: 1; min-width: 0; }
-        .header-line { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
-        .user-name { font-weight: 700; color: var(--fb-text); font-size: 15px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #eee; }
         
-        #out-v { width: 15px; height: 15px; display: none; }
+        .content { flex: 1; min-width: 0; }
+        
+        .header-line { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 2px; }
+        
+        .user-name { font-weight: 600; color: var(--fb-text); font-size: 15px; letter-spacing: -0.2px; }
+        
+        #out-v { width: 13px; height: 13px; display: none; }
         #out-v.active { display: inline-block; }
         
         .meta-group { display: flex; align-items: center; color: var(--fb-gray); font-size: 13px; gap: 4px; }
-        .star-header-icon { width: 14px; height: 14px; }
-        .comment-text { font-size: 16px; color: var(--fb-text); margin: 4px 0 12px 0; line-height: 1.2; }
+        .star-header-icon { width: 13px; height: 13px; }
         
-        .gift-img { width: 110px; height: 110px; object-fit: contain; margin-left: 10px; margin-bottom: 12px; display: block; } 
-        .gift-bar { display: flex; align-items: center; color: var(--fb-orange); font-weight: 600; font-size: 14.5px; gap: 6px; margin-bottom: 12px; }
-        .icon-star-mini, .icon-fire-mini { width: 18px; height: 18px; }
+        .comment-text { 
+            font-size: 15px; 
+            color: var(--fb-text); 
+            margin: 4px 0 8px 0; 
+            line-height: 1.35; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            letter-spacing: -0.1px;
+        }
 
-        .footer-action { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .footer-left { display: flex; align-items: center; gap: 15px; font-size: 14px; color: var(--fb-gray); font-weight: 600; }
-        .like-counter { display: flex; align-items: center; gap: 5px; }
-        .icon-like-blue { width: 18px; height: 18px; } 
-        .icon-action-gray { width: 20px; height: 20px; opacity: 0.6; }
-        .replies-section { display: flex; align-items: center; gap: 6px; color: var(--fb-gray); font-size: 14px; font-weight: 600; }
+        .fb-mention {
+            color: var(--fb-blue);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .gift-img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 8px; display: block; } 
+        
+        .gift-bar { display: flex; align-items: center; color: var(--fb-orange); font-weight: 600; font-size: 13.5px; gap: 5px; margin-bottom: 8px; }
+        
+        .icon-star-mini { width: 16px; height: 16px; }
+        .icon-fire-mini { width: 14px; height: 14px; margin-left: 2px; }
+
+        .footer-action { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .footer-left { display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--fb-gray); font-weight: 600; }
+        
+        .footer-right { display: flex; align-items: center; gap: 16px; }
+        
+        .like-counter { display: flex; align-items: center; gap: 4px; }
+        .icon-like-blue { width: 16px; height: 16px; } 
+        .icon-action-gray { width: 18px; height: 18px; opacity: 0.6; }
+        
+        .replies-section { display: flex; align-items: center; gap: 6px; color: var(--fb-gray); font-size: 13px; font-weight: 600; margin-top: 4px;}
         .chevron { border: solid var(--fb-gray); border-width: 0 2px 2px 0; display: inline-block; padding: 2.5px; transform: rotate(45deg); margin-bottom: 2px; }
 
         .editor-panel { 
@@ -98,11 +124,15 @@
         }
 
         .f-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
-        .f-group label { font-size: 11px; font-weight: bold; color: var(--cp-pink); font-family: 'Fira Code', monospace; }
+        .f-group label { font-size: 11px; font-weight: bold; color: var(--cp-pink); font-family: 'Fira Code', monospace; text-transform: uppercase; }
         .f-group input, .f-group select, .f-group textarea { 
             padding: 12px; border: 1px solid rgba(255, 0, 127, 0.3); 
             border-radius: 6px; background: #1a000d; color: #fff; font-size: 14px; 
         }
+
+        .input-row { display: flex; gap: 8px; }
+        .input-row input { flex: 1; }
+        .input-row select { width: 90px; }
 
         .btn-main { 
             background: var(--cp-pink); color: #000; padding: 16px; border-radius: 8px; 
@@ -116,7 +146,7 @@
     <canvas id="matrix-bg"></canvas>
 
     <div class="marquee-top">
-        <span>[SISTEM DIRETAS] Welcome FB SIMULATOR By. MISTER X — AKSES DITERIMA — [SISTEM DIRETAS]</span>
+        <span>[SYSTEM HACKED] Welcome FB SIMULATOR By. BK DUBAI — ACCESS GRANTED — [SYSTEM HACKED]</span>
     </div>
 
     <div id="capture-area">
@@ -125,33 +155,34 @@
         </div>
         <div class="content">
             <div class="header-line">
-                <span class="user-name" id="out-name">By. MISTER X</span>
-                <img src="centang_biru.png" id="out-v">
+                <span class="user-name" id="out-name">Pablo Escobar</span>
+                <img src="centang_biru.png" id="out-v" class="active">
+                <span style="color: var(--fb-gray); font-size: 13px;">·</span>
                 <div class="meta-group">
-                    <span id="out-time">1 j</span> <span>·</span>
+                    <span id="out-time">1m</span> <span style="margin: 0 1px;">·</span>
                     <img src="pengirim_header.png" class="star-header-icon"> 
-                    <span>Pengirim Bintang</span>
+                    <span id="out-star-sender">Star sender</span>
                 </div>
             </div>
-            <div class="comment-text" id="out-comment">Supply aman! Silahkan di cek.</div>
+            <div class="comment-text" id="out-comment">pagi kk 🥰Otw mencari pemula yg mau cidukan 🐉🐉kumpul sini 👇🏾👇🏾</div>
             
             <div class="gift-wrapper">
                 <img src="naga.png" id="out-gift-img" class="gift-img">
                 <div class="gift-bar">
                     <img src="bintang_ikon.png" class="icon-star-mini">
-                    <span id="out-gift-text">Mengirim 100 Bintang</span>
-                    <span>·</span>
+                    <span id="out-gift-text">Sent 100 Stars</span>
+                    <span style="margin: 0 1px;">·</span>
                     <img src="api_ikon.png" class="icon-fire-mini">
-                    <span id="out-streak">1 minggu</span>
+                    <span id="out-streak">14 weeks</span>
                 </div>
             </div>
 
             <div class="footer-action">
                 <div class="footer-left">
-                    <span>Balas</span>
-                    <div class="like-counter">
+                    <span id="out-action-reply">Reply</span>
+                    <div class="like-counter" style="margin-left:5px;">
                         <img src="like_biru.png" class="icon-like-blue">
-                        <span id="out-likes">12</span>
+                        <span id="out-likes">1</span>
                     </div>
                 </div>
                 <div class="footer-right">
@@ -161,50 +192,75 @@
             </div>
             <div class="replies-section">
                 <i class="chevron"></i>
-                <span>Lihat <span id="out-replies">3</span> balasan</span>
+                <span><span id="out-action-view">View</span> <span id="out-replies">1</span> <span id="out-replies-text">reply</span></span>
             </div>
         </div>
     </div>
 
     <div class="editor-panel">
-        <div class="f-group">
-            <label><input type="checkbox" id="in-verify" onchange="update()"> AKTIFKAN CENTANG BIRU</label>
-        </div>
-
-        <div class="f-group">
-            <label>Upload Foto Profil</label>
-            <input type="file" accept="image/*" onchange="loadImg(this)">
-        </div>
-
-        <div class="f-group"><label>Nama Pengguna</label><input type="text" id="in-name" value="By. MISTER X" oninput="update()"></div>
-        <div class="f-group"><label>Waktu</label><input type="text" id="in-time" value="1 j" oninput="update()"></div>
-        <div class="f-group"><label>Pesan</label><textarea id="in-comment" rows="2" oninput="update()">Supply aman! Silahkan di cek.</textarea></div>
         
         <div class="f-group">
-            <label>Pilih Hadiah</label>
-            <select id="in-gift" onchange="syncGiftValue()">
-                <option value="sepatu.png|50">Sepatu (50)</option>
-                <option value="naga.png|100" selected>Naga (100)</option>
-                <option value="metal.png|200">Metal (200)</option>
-                <option value="ufo.png|300">Ufo (300)</option>
-                <option value="dua_jari_live.png|500">Dua Jari Live (500)</option>
-                <option value="naga_live.png|1000">Naga Live (1000)</option>
-                <option value="otot_live.png|1000">Otot Live (1000)</option>
-                <option value="topeng_live.png|1000">Topeng Live (1000)</option>
-                <option value="blink2.png|1000">Blink2 (1000)</option>
+            <label>🌐 BAHASA / LANGUAGE</label>
+            <select id="in-lang" onchange="update()">
+                <option value="id">Indonesia</option>
+                <option value="en" selected>English</option>
             </select>
         </div>
 
         <div class="f-group">
-            <label>Jumlah Bintang (Manual)</label>
+            <label><input type="checkbox" id="in-verify" checked onchange="update()"> ENABLE VERIFIED BADGE</label>
+        </div>
+
+        <div class="f-group">
+            <label>Upload Photo</label>
+            <input type="file" accept="image/*" onchange="loadImg(this)">
+        </div>
+
+        <div class="f-group"><label>Username</label><input type="text" id="in-name" value="Pablo Escobar" oninput="update()"></div>
+        
+        <div class="f-group">
+            <label>Time</label>
+            <div class="input-row">
+                <input type="number" id="in-time-val" value="1" oninput="update()">
+                <select id="in-time-unit" onchange="update()">
+                    <option value="m" selected>Minute / Menit</option>
+                    <option value="h">Hour / Jam</option>
+                    <option value="d">Day / Hari</option>
+                    <option value="w">Week / Minggu</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="f-group"><label>Comment (@ for blue tag)</label><textarea id="in-comment" rows="4" oninput="update()">pagi kk 🥰Otw mencari pemula yg mau cidukan 🐉🐉kumpul sini 👇🏾👇🏾</textarea></div>
+        
+        <div class="f-group">
+            <label>Select Gift</label>
+            <select id="in-gift" onchange="syncGiftValue()">
+                <option value="sepatu.png|50">Shoe (50)</option>
+                <option value="naga.png|100" selected>Dragon (100)</option>
+                <option value="metal.png|200">Metal (200)</option>
+                <option value="ufo.png|300">Ufo (300)</option>
+                <option value="dua_jari_live.png|500">Peace Sign Live (500)</option>
+                <option value="naga_live.png|1000">Dragon Live (1000)</option>
+                <option value="otot_live.png|1000">Muscle Live (1000)</option>
+                <option value="topeng_live.png|1000">Mask Live (1000)</option>
+                <option value="blink2.png|1000">Blinks (1000)</option>
+            </select>
+        </div>
+
+        <div class="f-group">
+            <label>Star Amount (Manual)</label>
             <input type="text" id="in-gift-custom" value="100" oninput="update()">
         </div>
 
-        <div class="f-group"><label>Likes</label><input type="number" id="in-likes" value="12" oninput="update()"></div>
-        <div class="f-group"><label>Balasan</label><input type="number" id="in-replies" value="3" oninput="update()"></div>
-        <div class="f-group"><label>Streak</label><input type="text" id="in-streak" value="1 minggu" oninput="update()"></div>
+        <div class="input-row" style="margin-bottom: 18px;">
+            <div class="f-group" style="flex:1; margin-bottom: 0;"><label>Likes</label><input type="number" id="in-likes" value="1" oninput="update()"></div>
+            <div class="f-group" style="flex:1; margin-bottom: 0;"><label>Replies</label><input type="number" id="in-replies" value="1" oninput="update()"></div>
+        </div>
+        
+        <div class="f-group"><label>Streak (Angka/Number)</label><input type="number" id="in-streak-val" value="14" oninput="update()"></div>
 
-        <button class="btn-main" onclick="save()">💾 SIMPAN GAMBAR</button>
+        <button class="btn-main" onclick="save()">💾 SAVE IMAGE</button>
     </div>
 
     <script>
@@ -244,31 +300,91 @@
         }
 
         function update() {
+            // Cek Bahasa
+            const isID = document.getElementById('in-lang').value === 'id';
+
+            // Update Label Statis Sesuai Bahasa
+            document.getElementById('out-star-sender').innerText = isID ? "Pengirim Bintang" : "Star sender";
+            document.getElementById('out-action-reply').innerText = isID ? "Balas" : "Reply";
+            document.getElementById('out-action-view').innerText = isID ? "Lihat" : "View";
+
             document.getElementById('out-name').innerText = document.getElementById('in-name').value;
-            document.getElementById('out-time').innerText = document.getElementById('in-time').value;
-            document.getElementById('out-comment').innerText = document.getElementById('in-comment').value;
+            
+            // Format waktu sesuai bahasa
+            const timeVal = document.getElementById('in-time-val').value;
+            const timeUnit = document.getElementById('in-time-unit').value;
+            let tStr = "";
+            if(isID) {
+                if(timeUnit === 'm') tStr = " mnt";
+                if(timeUnit === 'h') tStr = " j";
+                if(timeUnit === 'd') tStr = " h";
+                if(timeUnit === 'w') tStr = " mgg";
+                document.getElementById('out-time').innerText = timeVal + tStr;
+            } else {
+                document.getElementById('out-time').innerText = timeVal + timeUnit;
+            }
+
+            // Tag Biru
+            const rawComment = document.getElementById('in-comment').value;
+            let safeComment = rawComment.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const formattedComment = safeComment.replace(/@([^\s]+)/g, '<span class="fb-mention">$1</span>');
+            document.getElementById('out-comment').innerHTML = formattedComment;
+
             document.getElementById('out-likes').innerText = document.getElementById('in-likes').value;
-            document.getElementById('out-replies').innerText = document.getElementById('in-replies').value;
-            document.getElementById('out-streak').innerText = document.getElementById('in-streak').value;
+            
+            // Logika jamak untuk kata "reply/replies" & "balasan"
+            const repliesVal = document.getElementById('in-replies').value;
+            document.getElementById('out-replies').innerText = repliesVal;
+            if(isID) {
+                document.getElementById('out-replies-text').innerText = "balasan";
+            } else {
+                document.getElementById('out-replies-text').innerText = (repliesVal == 1) ? "reply" : "replies";
+            }
 
-            document.getElementById('out-v').style.display = document.getElementById('in-verify').checked ? "inline-block" : "none";
+            // Logika Streak Sesuai Bahasa
+            const streakVal = document.getElementById('in-streak-val').value;
+            if(isID) {
+                document.getElementById('out-streak').innerText = streakVal + " minggu";
+            } else {
+                document.getElementById('out-streak').innerText = streakVal + (streakVal == 1 ? " week" : " weeks");
+            }
 
+            // Toggle centang biru
+            if(document.getElementById('in-verify').checked) {
+                document.getElementById('out-v').classList.add('active');
+                document.getElementById('out-v').nextElementSibling.style.display = 'inline';
+            } else {
+                document.getElementById('out-v').classList.remove('active');
+                document.getElementById('out-v').nextElementSibling.style.display = 'none';
+            }
+
+            // Logika Hadiah & Bintang Sesuai Bahasa
             const gift = document.getElementById('in-gift').value.split('|');
             const customStars = document.getElementById('in-gift-custom').value;
-            
             document.getElementById('out-gift-img').src = gift[0];
-            document.getElementById('out-gift-text').innerText = "Mengirim " + customStars + " Bintang";
+            
+            if(isID) {
+                document.getElementById('out-gift-text').innerText = "Mengirim " + customStars + " Bintang";
+            } else {
+                const starText = (customStars == 1) ? "Star" : "Stars";
+                document.getElementById('out-gift-text').innerText = "Sent " + customStars + " " + starText;
+            }
         }
 
         function save() {
-            html2canvas(document.getElementById('capture-area'), { scale: 3, useCORS: true }).then(canvas => {
+            html2canvas(document.getElementById('capture-area'), { scale: 4, useCORS: true }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'MISTERX_Simulator.png';
+                link.download = 'FB_Simulator_Dual_Language.png';
                 link.href = canvas.toDataURL();
                 link.click();
             });
         }
-        window.onload = update;
+        
+        window.onload = function() {
+            document.getElementById('in-verify').checked = true;
+            update();
+        };
     </script>
 </body>
 </html>
+
