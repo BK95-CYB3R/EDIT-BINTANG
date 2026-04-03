@@ -250,7 +250,7 @@
 
         <div class="f-group">
             <label>Star Amount (Manual)</label>
-            <input type="text" id="in-gift-custom" value="100" oninput="update()">
+            <input type="number" id="in-gift-custom" value="100" oninput="update()">
         </div>
 
         <div class="input-row" style="margin-bottom: 18px;">
@@ -358,16 +358,20 @@
                 document.getElementById('out-v').nextElementSibling.style.display = 'none';
             }
 
-            // Logika Hadiah & Bintang Sesuai Bahasa
+            // Logika Hadiah & Bintang Sesuai Bahasa + Format Titik (Ribuan)
             const gift = document.getElementById('in-gift').value.split('|');
-            const customStars = document.getElementById('in-gift-custom').value;
+            const customStarsInput = document.getElementById('in-gift-custom').value;
+            
+            // Format angka dengan titik (1.000)
+            const formattedStars = Number(customStarsInput).toLocaleString('id-ID');
+            
             document.getElementById('out-gift-img').src = gift[0];
             
             if(isID) {
-                document.getElementById('out-gift-text').innerText = "Mengirim " + customStars + " Bintang";
+                document.getElementById('out-gift-text').innerText = "Mengirim " + formattedStars + " Bintang";
             } else {
-                const starText = (customStars == 1) ? "Star" : "Stars";
-                document.getElementById('out-gift-text').innerText = "Sent " + customStars + " " + starText;
+                const starText = (customStarsInput == 1) ? "Star" : "Stars";
+                document.getElementById('out-gift-text').innerText = "Sent " + formattedStars + " " + starText;
             }
         }
 
@@ -387,4 +391,3 @@
     </script>
 </body>
 </html>
-
