@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <!-- Defer dihapus biar library pasti dimuat sebelum dipencet save -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root { 
@@ -41,7 +42,6 @@
             font-weight: 900; font-size: 13px; 
             white-space: nowrap; overflow: hidden;
             position: sticky; top: 0; z-index: 100;
-            /* Efek Neon Dihapus */
         }
 
         .marquee-top span {
@@ -63,7 +63,6 @@
             gap: 10px; 
             margin-top: 30px;
             border-radius: 4px;
-            /* Efek Neon Dihapus */
         }
 
         .avatar-container { flex-shrink: 0; }
@@ -121,7 +120,6 @@
             padding: 25px; width: 92%; max-width: 500px; border-radius: 12px; 
             border: 2px solid var(--cp-pink); 
             color: #ffe6f2;
-            /* Efek Neon Dihapus */
         }
 
         .f-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
@@ -140,6 +138,8 @@
             font-weight: 900; border: none; width: 100%; cursor: pointer;
             font-family: 'Fira Code', monospace; transition: 0.3s;
         }
+        
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -259,7 +259,7 @@
         
         <div class="f-group"><label>Streak (Angka/Number)</label><input type="number" id="in-streak-val" value="14" oninput="update()"></div>
 
-        <button class="btn-main" onclick="save()">💾 SAVE IMAGE</button>
+        <button class="btn-main" id="btn-save" onclick="save()">💾 SAVE IMAGE</button>
     </div>
 
     <script>
@@ -344,13 +344,36 @@
             }
         }
 
+        // FUNGSI SAVE YANG SUDAH DIOPTIMASI BUAT HP
         function save() {
-            html2canvas(document.getElementById('capture-area'), { scale: 4, useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'FB_Simulator_Dual_Language.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+            const btn = document.getElementById('btn-save');
+            const originalText = btn.innerText;
+            
+            // Ubah teks tombol biar nggak dikira ngelag
+            btn.innerText = "⏳ MEMPROSES GAMBAR...";
+            btn.disabled = true;
+
+            // Kasih jeda sedikit biar browser napas dulu sebelum merender gambar berat
+            setTimeout(() => {
+                html2canvas(document.getElementById('capture-area'), { 
+                    scale: 2, // Scale diturunkan ke 2 biar HP nggak jebol
+                    useCORS: true,
+                    allowTaint: true 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'FB_Simulator.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    // Kembalikan tombol seperti semula
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    alert("Waduh, gagal save bro. Coba refresh halamannya ya.");
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
+            }, 100);
         }
         
         window.onload = function() {
@@ -360,3 +383,4 @@
     </script>
 </body>
 </html>
+
