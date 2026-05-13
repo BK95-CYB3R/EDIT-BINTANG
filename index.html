@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FB Simulator Pro - Dual Language Edition</title>
     
-    <!-- Preconnect untuk mempercepat loading Font Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Tambahan defer agar script tidak bikin ngelag saat pertama kali buka web -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     
     <style>
@@ -37,19 +35,13 @@
             -webkit-font-smoothing: antialiased; 
         }
 
-        #matrix-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.4;
-        }
-
         .marquee-top {
             width: 100%; background: var(--cp-pink); color: #000;
             padding: 10px 0; font-family: 'Fira Code', monospace;
             font-weight: 900; font-size: 13px; 
             white-space: nowrap; overflow: hidden;
             position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 0 20px var(--cp-pink);
+            /* Efek Neon Dihapus */
         }
 
         .marquee-top span {
@@ -70,8 +62,8 @@
             display: flex; 
             gap: 10px; 
             margin-top: 30px;
-            box-shadow: 0 0 35px rgba(255, 0, 127, 0.6);
             border-radius: 4px;
+            /* Efek Neon Dihapus */
         }
 
         .avatar-container { flex-shrink: 0; }
@@ -127,8 +119,9 @@
         .editor-panel { 
             margin: 40px 0 120px 0; background: rgba(20, 0, 10, 0.95); 
             padding: 25px; width: 92%; max-width: 500px; border-radius: 12px; 
-            border: 2px solid var(--cp-pink); box-shadow: 0 0 20px var(--cp-pink);
+            border: 2px solid var(--cp-pink); 
             color: #ffe6f2;
+            /* Efek Neon Dihapus */
         }
 
         .f-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
@@ -151,15 +144,12 @@
 </head>
 <body>
 
-    <canvas id="matrix-bg"></canvas>
-
     <div class="marquee-top">
-        <span>[SYSTEM HACKED] Welcome FB SIMULATOR By.BayuDubai — ACCESS GRANTED — [SYSTEM HACKED]</span>
+        <span>[SYSTEM HACKED] Welcome FB SIMULATOR — ACCESS GRANTED — [SYSTEM HACKED]</span>
     </div>
 
     <div id="capture-area">
         <div class="avatar-container">
-            <!-- Tambah loading lazy pada gambar -->
             <img src="" class="avatar" id="out-avatar" loading="lazy">
         </div>
         <div class="content">
@@ -273,42 +263,6 @@
     </div>
 
     <script>
-        // Matrix Effect - OPTIMASI MENCEGAH LAG
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const fontSize = 16;
-        const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-        
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(13, 2, 8, 0.08)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#ff007f";
-            ctx.font = fontSize + "px monospace";
-            drops.forEach((y, i) => {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, y * fontSize);
-                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        
-        // PENGGANTI SETINTERVAL Yg BIKIN BERAT
-        let lastTime = 0;
-        const fps = 20; 
-        const interval = 1000 / fps;
-        
-        function animateMatrix(currentTime) {
-            requestAnimationFrame(animateMatrix);
-            const deltaTime = currentTime - lastTime;
-            if (deltaTime > interval) {
-                drawMatrix();
-                lastTime = currentTime - (deltaTime % interval);
-            }
-        }
-        requestAnimationFrame(animateMatrix);
-
         function loadImg(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -324,17 +278,14 @@
         }
 
         function update() {
-            // Cek Bahasa
             const isID = document.getElementById('in-lang').value === 'id';
 
-            // Update Label Statis Sesuai Bahasa
             document.getElementById('out-star-sender').innerText = isID ? "Pengirim Bintang" : "Star sender";
             document.getElementById('out-action-reply').innerText = isID ? "Balas" : "Reply";
             document.getElementById('out-action-view').innerText = isID ? "Lihat" : "View";
 
             document.getElementById('out-name').innerText = document.getElementById('in-name').value;
             
-            // Format waktu sesuai bahasa
             const timeVal = document.getElementById('in-time-val').value;
             const timeUnit = document.getElementById('in-time-unit').value;
             let tStr = "";
@@ -348,7 +299,6 @@
                 document.getElementById('out-time').innerText = timeVal + timeUnit;
             }
 
-            // Tag Biru
             const rawComment = document.getElementById('in-comment').value;
             let safeComment = rawComment.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             const formattedComment = safeComment.replace(/@([^\s]+)/g, '<span class="fb-mention">$1</span>');
@@ -356,7 +306,6 @@
 
             document.getElementById('out-likes').innerText = document.getElementById('in-likes').value;
             
-            // Logika jamak untuk kata "reply/replies" & "balasan"
             const repliesVal = document.getElementById('in-replies').value;
             document.getElementById('out-replies').innerText = repliesVal;
             if(isID) {
@@ -365,7 +314,6 @@
                 document.getElementById('out-replies-text').innerText = (repliesVal == 1) ? "reply" : "replies";
             }
 
-            // Logika Streak Sesuai Bahasa
             const streakVal = document.getElementById('in-streak-val').value;
             if(isID) {
                 document.getElementById('out-streak').innerText = streakVal + " minggu";
@@ -373,7 +321,6 @@
                 document.getElementById('out-streak').innerText = streakVal + (streakVal == 1 ? " week" : " weeks");
             }
 
-            // Toggle centang biru
             if(document.getElementById('in-verify').checked) {
                 document.getElementById('out-v').classList.add('active');
                 document.getElementById('out-v').nextElementSibling.style.display = 'inline';
@@ -382,11 +329,9 @@
                 document.getElementById('out-v').nextElementSibling.style.display = 'none';
             }
 
-            // Logika Hadiah & Bintang Sesuai Bahasa + Format Titik (Ribuan)
             const gift = document.getElementById('in-gift').value.split('|');
             const customStarsInput = document.getElementById('in-gift-custom').value;
             
-            // Format angka dengan titik (1.000)
             const formattedStars = Number(customStarsInput).toLocaleString('id-ID');
             
             document.getElementById('out-gift-img').src = gift[0];
