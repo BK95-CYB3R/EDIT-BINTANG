@@ -1,11 +1,19 @@
+<!-- DILARANG REPOST / COPY FB: Bayu Kurniawan -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FB Simulator Pro - Dual Language Edition</title>
+    
+    <!-- Preconnect untuk mempercepat loading Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Tambahan defer agar script tidak bikin ngelag saat pertama kali buka web -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    
     <style>
         :root { 
             --fb-gray: #65676B; 
@@ -146,33 +154,34 @@
     <canvas id="matrix-bg"></canvas>
 
     <div class="marquee-top">
-        <span>[SYSTEM HACKED] Welcome FB SIMULATOR By. BK DUBAI — ACCESS GRANTED — [SYSTEM HACKED]</span>
+        <span>[SYSTEM HACKED] Welcome FB SIMULATOR By.BayuDubai — ACCESS GRANTED — [SYSTEM HACKED]</span>
     </div>
 
     <div id="capture-area">
         <div class="avatar-container">
-            <img src="" class="avatar" id="out-avatar">
+            <!-- Tambah loading lazy pada gambar -->
+            <img src="" class="avatar" id="out-avatar" loading="lazy">
         </div>
         <div class="content">
             <div class="header-line">
                 <span class="user-name" id="out-name">Pablo Escobar</span>
-                <img src="centang_biru.png" id="out-v" class="active">
+                <img src="centang_biru.png" id="out-v" class="active" loading="lazy">
                 <span style="color: var(--fb-gray); font-size: 13px;">·</span>
                 <div class="meta-group">
                     <span id="out-time">1m</span> <span style="margin: 0 1px;">·</span>
-                    <img src="pengirim_header.png" class="star-header-icon"> 
+                    <img src="pengirim_header.png" class="star-header-icon" loading="lazy"> 
                     <span id="out-star-sender">Star sender</span>
                 </div>
             </div>
             <div class="comment-text" id="out-comment">pagi kk 🥰Otw mencari pemula yg mau cidukan 🐉🐉kumpul sini 👇🏾👇🏾</div>
             
             <div class="gift-wrapper">
-                <img src="naga.png" id="out-gift-img" class="gift-img">
+                <img src="naga.png" id="out-gift-img" class="gift-img" loading="lazy">
                 <div class="gift-bar">
-                    <img src="bintang_ikon.png" class="icon-star-mini">
+                    <img src="bintang_ikon.png" class="icon-star-mini" loading="lazy">
                     <span id="out-gift-text">Sent 100 Stars</span>
                     <span style="margin: 0 1px;">·</span>
-                    <img src="api_ikon.png" class="icon-fire-mini">
+                    <img src="api_ikon.png" class="icon-fire-mini" loading="lazy">
                     <span id="out-streak">14 weeks</span>
                 </div>
             </div>
@@ -181,13 +190,13 @@
                 <div class="footer-left">
                     <span id="out-action-reply">Reply</span>
                     <div class="like-counter" style="margin-left:5px;">
-                        <img src="like_biru.png" class="icon-like-blue">
+                        <img src="like_biru.png" class="icon-like-blue" loading="lazy">
                         <span id="out-likes">1</span>
                     </div>
                 </div>
                 <div class="footer-right">
-                    <img src="jempol_outline.png" class="icon-action-gray">
-                    <img src="dislike_outline.png" class="icon-action-gray">
+                    <img src="jempol_outline.png" class="icon-action-gray" loading="lazy">
+                    <img src="dislike_outline.png" class="icon-action-gray" loading="lazy">
                 </div>
             </div>
             <div class="replies-section">
@@ -264,13 +273,14 @@
     </div>
 
     <script>
-        // Matrix Effect
+        // Matrix Effect - OPTIMASI MENCEGAH LAG
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         const fontSize = 16;
         const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+        
         function drawMatrix() {
             ctx.fillStyle = "rgba(13, 2, 8, 0.08)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -283,7 +293,21 @@
                 drops[i]++;
             });
         }
-        setInterval(drawMatrix, 50);
+        
+        // PENGGANTI SETINTERVAL Yg BIKIN BERAT
+        let lastTime = 0;
+        const fps = 20; 
+        const interval = 1000 / fps;
+        
+        function animateMatrix(currentTime) {
+            requestAnimationFrame(animateMatrix);
+            const deltaTime = currentTime - lastTime;
+            if (deltaTime > interval) {
+                drawMatrix();
+                lastTime = currentTime - (deltaTime % interval);
+            }
+        }
+        requestAnimationFrame(animateMatrix);
 
         function loadImg(input) {
             if (input.files && input.files[0]) {
